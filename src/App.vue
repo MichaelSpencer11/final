@@ -28,33 +28,51 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://github.com/mspencer009/final2"
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="mr-2">Github repo</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
+      <v-text-field
+      id="searchBox" 
+      placeholder="Search..."
+      >
+      <v-spacer></v-spacer>
+
+      </v-text-field>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      
+      <v-btn>Prev page</v-btn>
+      <v-btn>next page</v-btn>
+      <v-textarea disabled></v-textarea>
+      <v-btn>Prev page</v-btn>
+      <v-btn>next page</v-btn>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+
   },
 
   data: () => ({
-    //
+    return: {
+      
+    }
   }),
 };
 </script>
+
+<style scoped>
+
+</style>
