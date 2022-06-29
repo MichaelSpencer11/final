@@ -36,21 +36,25 @@
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
       <v-text-field
-      id="searchBox" 
-      placeholder="Search..."
-      hint="Press enter to search"
-      @keydown="enter"
+        id="searchBox" 
+        placeholder="Search..."
+        hint="Press enter to search"
+        @keydown.enter="update"
       >
       <v-spacer></v-spacer>
-      <v-icon @click="update" >mdi-magnify</v-icon>
+      <v-icon @click="update">mdi-magnify</v-icon>
       </v-text-field>
+      <v-icon @click="update">mdi-magnify</v-icon>
     </v-app-bar>
 
     <v-main>
       
       <v-btn>Prev page</v-btn>
       <v-btn>next page</v-btn>
-      <v-textarea disabled placeholder="Results"></v-textarea>
+      <v-textarea 
+        disabled 
+        placeholder="Results"
+        >{{post}}</v-textarea>
       <v-btn>Prev page</v-btn>
       <v-btn>next page</v-btn>
     </v-main>
@@ -73,7 +77,7 @@ export default {
   },
   methods: {
     update() {
-      this.$store.dispatch("getPost")
+      this.$store.dispatch("getData")
     }
   },
 
