@@ -42,7 +42,6 @@
         @keydown.enter="update"
       >
       <v-spacer></v-spacer>
-      <v-icon @click="update">mdi-magnify</v-icon>
       </v-text-field>
       <v-icon @click="update">mdi-magnify</v-icon>
     </v-app-bar>
@@ -51,10 +50,7 @@
       
       <v-btn>Prev page</v-btn>
       <v-btn>next page</v-btn>
-      <v-textarea 
-        disabled 
-        placeholder="Results"
-        >{{post}}</v-textarea>
+      <div>{{data}}</div>
       <v-btn>Prev page</v-btn>
       <v-btn>next page</v-btn>
     </v-main>
@@ -62,7 +58,7 @@
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
 
 export default {
   name: 'App',
@@ -71,8 +67,8 @@ export default {
 
   },
   computed: {
-    post() {
-      return this.$store.state.post
+    data () {
+      return this.$store.state.data
     }
   },
   methods: {

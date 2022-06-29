@@ -6,24 +6,27 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    post: {},
+    data: {},
     searchString: ''
   },
   getters: {
     getData: state => {
-      return state.data.filter(data => data.entries.API)
+      return state.data
     }
   },
   mutations: {
     setData (state, data) {
-      state.post = data;
+      state.data = data;
+
     }
     
   },
   actions: {
     async getData(context) {
-      const {data} = await axios.get(`https://api.publicapis.org/entries`);
+      console.log('Fetching data...')
+      const data = await axios.get(`http://localhost:8080/entries`)
       context.commit("setData", data)
+      console.log('Done.')
     }
   },
   modules: {
