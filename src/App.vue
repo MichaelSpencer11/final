@@ -38,9 +38,11 @@
       <v-text-field
       id="searchBox" 
       placeholder="Search..."
+      hint="Press enter to search"
+      @keydown="enter"
       >
       <v-spacer></v-spacer>
-
+      <v-icon @click="update" >mdi-magnify</v-icon>
       </v-text-field>
     </v-app-bar>
 
@@ -63,6 +65,16 @@ export default {
 
   components: {
 
+  },
+  computed: {
+    post() {
+      return this.$store.state.post
+    }
+  },
+  methods: {
+    update() {
+      this.$store.dispatch("getPost")
+    }
   },
 
   data: () => ({
