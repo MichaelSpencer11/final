@@ -48,7 +48,7 @@
       
       <v-btn>Prev page</v-btn>
       <v-btn>next page</v-btn>
-      <v-textarea disabled></v-textarea>
+      <v-textarea disabled placeholder="Results"></v-textarea>
       <v-btn>Prev page</v-btn>
       <v-btn>next page</v-btn>
     </v-main>
