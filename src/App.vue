@@ -35,24 +35,41 @@
         <span class="mr-2">Github repo</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-      <v-text-field
-        id="searchBox" 
-        placeholder="Search..."
-        hint="Press enter to search"
-        @keydown.enter="update"
-      >
-      <v-spacer></v-spacer>
-      </v-text-field>
-      <v-icon @click="update">mdi-magnify</v-icon>
     </v-app-bar>
 
     <v-main>
-      
-      <v-btn>Prev page</v-btn>
-      <v-btn>next page</v-btn>
-      <div>{{data}}</div>
-      <v-btn>Prev page</v-btn>
-      <v-btn>next page</v-btn>
+      <v-card
+    class="mx-auto"
+    max-width="500"
+  >
+    <v-sheet class="pa-4 primary lighten-2">
+      <v-text-field
+        label="Search Public APIs"
+        dark
+        flat
+        solo-inverted
+        hide-details
+        clearable
+        clear-icon="mdi-close-circle-outline"
+        hint="Press enter to search"
+      ><v-spacer></v-spacer>
+      </v-text-field>
+      <v-icon @click="update" class="flex align-center" @keydown.enter="update">mdi-magnify</v-icon>
+      <v-divider></v-divider>
+      <v-toolbar class="primary lighten-2">
+        <v-toolbar-items>
+          <v-btn @click="showAPIList" borderless color="white" group="true">API</v-btn>
+          <v-btn borderless color="white" group="true">Description</v-btn>
+          <v-btn borderless color="white" group="true">Category</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+    </v-sheet>
+    <v-card-text>
+      <v-treeview>
+        {{display}}
+      </v-treeview>
+    </v-card-text>
+  </v-card>
     </v-main>
   </v-app>
 </template>
@@ -68,15 +85,26 @@ export default {
   },
   computed: {
     data () {
-      return this.$store.state.data
+      return this.$store.getters.getData
+    },
+    entries () {
+      return this.$store.getters.getEntries
+    },
+    display () {
+      return this.$store.getters.getDisplay
     }
   },
   methods: {
     update() {
       this.$store.dispatch("getData")
+    },
+    showAPIList() {
+      this.$store.dispatch("getAPIList")
     }
   },
-
+  mounted () {
+    this.$store.dispatch("getData")
+  },
   data: () => ({
     return: {
       
