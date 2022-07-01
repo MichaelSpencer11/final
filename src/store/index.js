@@ -20,6 +20,9 @@ export default new Vuex.Store({
     },
     getDisplay: state => {
       return state.display
+    },
+    getCategories: state => {
+      
     }
   },
   mutations: {
@@ -33,7 +36,15 @@ export default new Vuex.Store({
       state.display = data
     },
     setDisplayAPI (state) {
-      state.display = state.entries.filter(entry => entry.API == state.searchString)
+      state.display = []
+      state.display = state.entries.forEach((state,entry) => state.display.push(entry.API))
+    },
+    setDisplayCategory (state) {
+      state.display = []
+      
+    },
+    addCategory(state, entry) {
+      state.display.add(entry.Category)
     }
 
   },
@@ -49,6 +60,12 @@ export default new Vuex.Store({
     },
     getAPIList(context) {
       context.commit("setDisplayAPI")
+    },
+    getCategoryList(context, getters) {
+      var entries = context.rootGetters.getEntries
+      var categories = []
+      entries.forEach(entry => categories.push(entry.Category))
+      context.commit("setDisplay", categories)
     }
   },
   modules: {

@@ -60,7 +60,7 @@
         <v-toolbar-items>
           <v-btn @click="showAPIList" borderless color="white" group="true">API</v-btn>
           <v-btn borderless color="white" group="true">Description</v-btn>
-          <v-btn borderless color="white" group="true">Category</v-btn>
+          <v-btn @click="showCategoryList" borderless color="white" group="true">Category</v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </v-sheet>
@@ -75,8 +75,6 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
 export default {
   name: 'App',
 
@@ -100,6 +98,9 @@ export default {
     },
     showAPIList() {
       this.$store.dispatch("getAPIList")
+    },
+    showCategoryList() {
+      this.$store.dispatch("getCategoryList")
     }
   },
   mounted () {
