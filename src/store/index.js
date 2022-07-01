@@ -9,7 +9,8 @@ export default new Vuex.Store({
     data: {},
     searchString: '',
     entries: [],
-    display: []
+    display: [],
+    categories: []
   },
   getters: {
     getData: state => {
@@ -22,7 +23,7 @@ export default new Vuex.Store({
       return state.display
     },
     getCategories: state => {
-      
+      return state.categories
     }
   },
   mutations: {
@@ -45,8 +46,17 @@ export default new Vuex.Store({
     },
     addCategory(state, entry) {
       state.display.add(entry.Category)
+    },
+    removeDuplicates (state, array, key) {
+      for (key = 0; key < array.length; key++){
+        if(array[key] === array[key+1]) {
+          array.pop(array[key])
+        } else {
+          
+        }
+      }
+      state.categories = array
     }
-
   },
   actions: {
     async getData(context, getters) {
@@ -65,6 +75,7 @@ export default new Vuex.Store({
       var entries = context.rootGetters.getEntries
       var categories = []
       entries.forEach(entry => categories.push(entry.Category))
+      context.commit("removeDuplicates", categories, 0)
       context.commit("setDisplay", categories)
     }
   },
