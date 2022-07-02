@@ -75,11 +75,13 @@
 </template>
 
 <script>
+import UtilityMethods from './components/UtilityMethods.vue'
+
 export default {
   name: 'App',
 
   components: {
-
+    UtilityMethods
   },
   computed: {
     data () {

@@ -65,8 +65,20 @@ export default new Vuex.Store({
       var entries = context.rootGetters.getEntries
       var categories = []
       entries.forEach(entry => categories.push(entry.Category))
-      context.commit("removeDuplicates", categories, 0)
+      categories = context.dispatch("removeDuplicates", categories)
       context.commit("setDisplay", categories)
+    },
+    removeDuplicates(context, array) {
+      var current = array[0]
+                for(var i = 0; i<array.length; i++){
+                    if (current === array[i+1]){
+                        array.pop(array[i+1])
+                        i--
+                    } else {
+                        current = array[i+1]
+                    }
+                }
+                return array
     }
   },
   modules: {

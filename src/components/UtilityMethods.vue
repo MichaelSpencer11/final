@@ -6,7 +6,11 @@
 
 <script>
     export default {
-        name: UtilityMethods,
+        data () {
+            return {
+                name: UtilityMethods
+            }
+        },
         methods: {
             removeDuplicates: function (array) {
                 var current = array[0]
