@@ -47,10 +47,6 @@ export default new Vuex.Store({
     setDisplay (state, data) {
       state.display = data
     },
-    setDisplayAPI (state) {
-      state.display = []
-      state.display = state.entries.forEach((state,entry) => state.display.push(entry.API))
-    },
     clearDisplay (state) {
       state.display = []
       state.entriesByCategory = []
@@ -74,9 +70,6 @@ export default new Vuex.Store({
       var entries = data.data.entries
       //context.commit("setDisplay", entries)
       console.log('Done.')
-    },
-    getAPIList(context) {
-      context.commit("setDisplayAPI")
     },
     getCategoryList(context) {
       var entries = context.rootGetters.getEntries
@@ -105,7 +98,7 @@ export default new Vuex.Store({
     },
     search(context) {
       var entriesBySearch = context.getters.getEntries
-      entriesBySearch.filter(value => value.Description.includes(context.getters.getSearch))
+      entriesBySearch = entriesBySearch.filter(value => value.Description.includes(context.getters.getSearch))
       context.commit("setEntriesBySearch", entriesBySearch)
     },
     clearEntries(context) {

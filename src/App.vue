@@ -48,7 +48,9 @@
         clearable
         clear-icon="mdi-close-circle-outline"
         hint="Search Public APIs" 
-      >{{search}}
+        :value="search" 
+        
+      >
       </v-text-field>
       <v-btn @click="updateSearch">
         <v-icon  class="flex align-center">mdi-magnify</v-icon>
@@ -129,7 +131,7 @@ export default {
       this.$store.dispatch("displayEntries", category)
     },
     updateSearch() {
-      this.$store.dispatch("search", this.$store.getters.getSearch)
+      this.$store.dispatch("search", this.search)
     },
   },
   mounted() {
@@ -138,7 +140,7 @@ export default {
   },
   data: () => ({
     return: {
-      
+      search: ''
     }
   }),
 };
