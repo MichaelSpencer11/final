@@ -92,6 +92,9 @@ export default {
     },
     display () {
       return this.$store.getters.getDisplay
+    },
+    categories () {
+      return this.$store.getters.getCategories
     }
   },
   methods: {

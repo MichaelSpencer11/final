@@ -42,10 +42,9 @@ export default new Vuex.Store({
     },
     setDisplayCategory (state) {
       state.display = []
-      
     },
-    addCategory(state, entry) {
-      state.display.add(entry.Category)
+    setCategories (state, array) {
+      state.categories = array
     }
   },
   actions: {
@@ -61,24 +60,23 @@ export default new Vuex.Store({
     getAPIList(context) {
       context.commit("setDisplayAPI")
     },
-    getCategoryList(context, getters) {
+    getCategoryList(context) {
       var entries = context.rootGetters.getEntries
       var categories = []
       entries.forEach(entry => categories.push(entry.Category))
-      categories = context.dispatch("removeDuplicates", categories)
-      context.commit("setDisplay", categories)
+      context.dispatch("removeDuplicates", categories)
+      context.commit("setDisplay", context.getters.getCategories)
     },
     removeDuplicates(context, array) {
-      var current = array[0]
                 for(var i = 0; i<array.length; i++){
-                    if (current === array[i+1]){
-                        array.pop(array[i+1])
-                        i--
-                    } else {
-                        current = array[i+1]
-                    }
+                  if(array[i] == array[i + 1]){
+                    array[i] = array[i] + "-test"
+                  }
                 }
-                return array
+                array = array.filter(function(value, index, arr){
+                  return !value.includes("-test")
+                });
+                context.commit("setCategories", array)
     }
   },
   modules: {
