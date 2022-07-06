@@ -38,10 +38,6 @@
     </v-app-bar>
 
     <v-main>
-      <v-card
-    class="mx-auto"
-    max-width="500"
-  >
     <v-sheet class="pa-4 primary lighten-2">
       <v-text-field
         label="Search Public APIs"
@@ -51,22 +47,25 @@
         hide-details
         clearable
         clear-icon="mdi-close-circle-outline"
-        hint="Press enter to search"
-      ><v-spacer></v-spacer>
+        hint="Search Public APIs" 
+      >{{search}}
       </v-text-field>
-      <v-icon @click="update" class="flex align-center" @keydown.enter="update">mdi-magnify</v-icon>
+      <v-btn @click="updateSearch">
+        <v-icon  class="flex align-center">mdi-magnify</v-icon>
+      </v-btn>
+      <v-btn @click="showCategoryList">
+        Categories
+        <v-icon class="flex align-center">mdi-solar-panel-large</v-icon>
+      </v-btn>
+      
       <v-divider></v-divider>
-      <v-toolbar class="primary lighten-2">
-        <v-toolbar-items>
-          <v-btn @click="showAPIList" borderless color="white" group="true">API</v-btn>
-          <v-btn borderless color="white" group="true">Description</v-btn>
-          <v-btn @click="showCategoryList" borderless color="white" group="true">Category</v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
     </v-sheet>
     <v-card-text>
       <v-card>
-        {{display}}
+        <h3 v-for="entry in entriesBySearch" 
+              :key="entry.API"
+              >{{entry}}
+        </h3>
       </v-card>
       <v-card>
         <v-btn v-for="category in categories" 
@@ -76,12 +75,12 @@
         </v-btn>
       </v-card>
       <v-card>
-        <v-btn v-for="entry in entriesByCategory" 
+        <h3 v-for="entry in entriesByCategory" 
               :key="entry.API"
-              @click="selectCategory">{{entry}}</v-btn>
+              >{{entry}}
+        </h3>
       </v-card>
     </v-card-text>
-  </v-card>
     </v-main>
   </v-app>
 </template>
@@ -96,38 +95,46 @@ export default {
     UtilityMethods
   },
   computed: {
-    data () {
+    data() {
       return this.$store.getters.getData
     },
-    entries () {
+    entries() {
       return this.$store.getters.getEntries
     },
-    display () {
+    display() {
       return this.$store.getters.getDisplay
     },
-    categories () {
+    categories() {
       return this.$store.getters.getCategories
     },
-    entriesByCategory () {
+    entriesByCategory() {
       return this.$store.getters.getEntriesByCategory
+    },
+    search() {
+      return this.$store.getters.getSearch
+    },
+    entriesBySearch() {
+      return this.$store.getters.getEntriesBySearch
     }
   },
   methods: {
     update() {
-      this.$store.dispatch("getData")
-    },
-    showAPIList() {
-      this.$store.dispatch("getAPIList")
+      
     },
     showCategoryList() {
+      this.$store.dispatch("clearEntries")
       this.$store.dispatch("getCategoryList")
     },
     selectCategory(category) {
       this.$store.dispatch("displayEntries", category)
-    }
+    },
+    updateSearch() {
+      this.$store.dispatch("search", this.$store.getters.getSearch)
+    },
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch("getData")
+    this.showCategoryList
   },
   data: () => ({
     return: {

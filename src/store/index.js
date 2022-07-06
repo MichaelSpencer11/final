@@ -7,9 +7,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     data: {},
-    searchString: '',
+    search: '',
     entries: [],
     entriesByCategory: [],
+    entriesBySearch: [],
     display: [],
     categories: [],
   },
@@ -28,6 +29,12 @@ export default new Vuex.Store({
     },
     getEntriesByCategory: state => {
       return state.entriesByCategory
+    },
+    getSearch: state => {
+      return state.search
+    },
+    getEntriesBySearch: state => {
+      return state.entriesBySearch
     }
   },
   mutations: {
@@ -46,12 +53,16 @@ export default new Vuex.Store({
     },
     clearDisplay (state) {
       state.display = []
+      state.entriesByCategory = []
     },
     setCategories (state, array) {
       state.categories = array
     },
     setEntriesByCategory (state, array){
       state.entriesByCategory = array
+    },
+    setEntriesBySearch (state, array) {
+      state.entriesBySearch = array
     }
   },
   actions: {
@@ -91,7 +102,15 @@ export default new Vuex.Store({
       var entriesByCategory = entries.filter(value => value.Category == category)
       context.commit("setEntriesByCategory", entriesByCategory)
       //context.commit("setDisplay", entriesByCategory)
-      }
+    },
+    search(context) {
+      var entriesBySearch = context.getters.getEntries
+      entriesBySearch.filter(value => value.Description.includes(context.getters.getSearch))
+      context.commit("setEntriesBySearch", entriesBySearch)
+    },
+    clearEntries(context) {
+      context.commit("setEntriesBySearch", [])
+    }
   },
   modules: {
   }
