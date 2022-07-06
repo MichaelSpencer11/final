@@ -9,8 +9,9 @@ export default new Vuex.Store({
     data: {},
     searchString: '',
     entries: [],
+    entriesByCategory: [],
     display: [],
-    categories: []
+    categories: [],
   },
   getters: {
     getData: state => {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     getCategories: state => {
       return state.categories
+    },
+    getEntriesByCategory: state => {
+      return state.entriesByCategory
     }
   },
   mutations: {
@@ -40,11 +44,14 @@ export default new Vuex.Store({
       state.display = []
       state.display = state.entries.forEach((state,entry) => state.display.push(entry.API))
     },
-    setDisplayCategory (state) {
+    clearDisplay (state) {
       state.display = []
     },
     setCategories (state, array) {
       state.categories = array
+    },
+    setEntriesByCategory (state, array){
+      state.entriesByCategory = array
     }
   },
   actions: {
@@ -54,7 +61,7 @@ export default new Vuex.Store({
       context.commit("setData", data)
       context.commit("setEntries", data)
       var entries = data.data.entries
-      context.commit("setDisplay", entries)
+      //context.commit("setDisplay", entries)
       console.log('Done.')
     },
     getAPIList(context) {
@@ -65,7 +72,7 @@ export default new Vuex.Store({
       var categories = []
       entries.forEach(entry => categories.push(entry.Category))
       context.dispatch("removeDuplicates", categories)
-      context.commit("setDisplay", context.getters.getCategories)
+      //context.commit("setDisplay", context.getters.getCategories)
     },
     removeDuplicates(context, array) {
                 for(var i = 0; i<array.length; i++){
@@ -77,7 +84,14 @@ export default new Vuex.Store({
                   return !value.includes("-test")
                 });
                 context.commit("setCategories", array)
-    }
+    },
+    displayEntries(context, category) {
+      context.commit("clearDisplay")
+      var entries = context.getters.getEntries
+      var entriesByCategory = entries.filter(value => value.Category == category)
+      context.commit("setEntriesByCategory", entriesByCategory)
+      //context.commit("setDisplay", entriesByCategory)
+      }
   },
   modules: {
   }

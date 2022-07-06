@@ -65,9 +65,21 @@
       </v-toolbar>
     </v-sheet>
     <v-card-text>
-      <v-treeview>
+      <v-card>
         {{display}}
-      </v-treeview>
+      </v-card>
+      <v-card>
+        <v-btn v-for="category in categories" 
+              :key="category"
+              @click="selectCategory(category)">
+          {{category}}
+        </v-btn>
+      </v-card>
+      <v-card>
+        <v-btn v-for="entry in entriesByCategory" 
+              :key="entry.API"
+              @click="selectCategory">{{entry}}</v-btn>
+      </v-card>
     </v-card-text>
   </v-card>
     </v-main>
@@ -95,6 +107,9 @@ export default {
     },
     categories () {
       return this.$store.getters.getCategories
+    },
+    entriesByCategory () {
+      return this.$store.getters.getEntriesByCategory
     }
   },
   methods: {
@@ -106,6 +121,9 @@ export default {
     },
     showCategoryList() {
       this.$store.dispatch("getCategoryList")
+    },
+    selectCategory(category) {
+      this.$store.dispatch("displayEntries", category)
     }
   },
   mounted () {
