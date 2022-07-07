@@ -48,11 +48,12 @@
         clearable
         clear-icon="mdi-close-circle-outline"
         hint="Search Public APIs" 
-        :value="search" 
-        
-      >
+        :value="search"
+        @input="updateSearch"
+        @keyup.enter="doSearch"
+      >{{this.search}}
       </v-text-field>
-      <v-btn @click="updateSearch">
+      <v-btn @click="doSearch">
         <v-icon  class="flex align-center">mdi-magnify</v-icon>
       </v-btn>
       <v-btn @click="showCategoryList">
@@ -120,8 +121,8 @@ export default {
     }
   },
   methods: {
-    update() {
-      
+    updateSearch(search) {
+      this.$store.dispatch("updateSearch", search)
     },
     showCategoryList() {
       this.$store.dispatch("clearEntries")
@@ -130,9 +131,9 @@ export default {
     selectCategory(category) {
       this.$store.dispatch("displayEntries", category)
     },
-    updateSearch() {
-      this.$store.dispatch("search", this.search)
-    },
+    doSearch() {
+      this.$store.dispatch("search", this.$store.getters.getSearch)
+    }
   },
   mounted() {
     this.$store.dispatch("getData")
@@ -140,7 +141,7 @@ export default {
   },
   data: () => ({
     return: {
-      search: ''
+      
     }
   }),
 };

@@ -59,6 +59,9 @@ export default new Vuex.Store({
     },
     setEntriesBySearch (state, array) {
       state.entriesBySearch = array
+    },
+    setSearch (state, search) {
+      state.search = search
     }
   },
   actions: {
@@ -96,13 +99,19 @@ export default new Vuex.Store({
       context.commit("setEntriesByCategory", entriesByCategory)
       //context.commit("setDisplay", entriesByCategory)
     },
-    search(context) {
-      var entriesBySearch = context.getters.getEntries
-      entriesBySearch = entriesBySearch.filter(value => value.Description.includes(context.getters.getSearch))
+    search(context, search) {
+      var entriesBySearch = context.getters.getEntries.filter(function(entry){
+        if (entry.Description.toLowerCase().includes(search.toLowerCase())){
+          return entry
+        }
+      })
       context.commit("setEntriesBySearch", entriesBySearch)
     },
     clearEntries(context) {
       context.commit("setEntriesBySearch", [])
+    },
+    updateSearch (context, search){
+      context.commit("setSearch", search)
     }
   },
   modules: {
