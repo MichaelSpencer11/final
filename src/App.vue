@@ -65,24 +65,18 @@
     </v-sheet>
     <v-card-text>
       <v-card>
-        <h3 v-for="entry in entriesBySearch" 
-              :key="entry.API"
-              >{{entry}}
-        </h3>
-      </v-card>
-      <v-card>
         <v-btn v-for="category in categories" 
               :key="category"
               @click="selectCategory(category)">
           {{category}}
         </v-btn>
       </v-card>
-      <v-card>
-        <h3 v-for="entry in entriesByCategory" 
-              :key="entry.API"
-              >{{entry}}
-        </h3>
-      </v-card>
+      <v-data-table  :headers="headers"
+                     :items="display"
+                     :items-per-page="5"
+                     class="elevation-1"
+                     :item-key="entriesByCategory.API">
+      </v-data-table>
     </v-card-text>
     </v-main>
   </v-app>
@@ -118,6 +112,9 @@ export default {
     },
     entriesBySearch() {
       return this.$store.getters.getEntriesBySearch
+    },
+    headers() {
+      return this.$store.getters.getHeaders
     }
   },
   methods: {

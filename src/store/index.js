@@ -13,6 +13,34 @@ export default new Vuex.Store({
     entriesBySearch: [],
     display: [],
     categories: [],
+    headers: [{
+      text: "API",
+      value: "API"
+    }, 
+    {
+      text: "Description",
+      value: "Description"
+    }, 
+    {
+      text: "Authentication",
+      value: "Auth"
+    }, 
+    {
+      text: "HTTPS",
+      value: "HTTPS"
+    }, 
+    {
+      text: "Cors",
+      value: "Cors"
+    }, 
+    {
+      text: "Link",
+      value: "Link"
+    }, 
+    {
+      text: "Category",
+      value: "Category"
+    }]
   },
   getters: {
     getData: state => {
@@ -35,6 +63,9 @@ export default new Vuex.Store({
     },
     getEntriesBySearch: state => {
       return state.entriesBySearch
+    },
+    getHeaders: state => {
+      return state.headers
     }
   },
   mutations: {
@@ -62,7 +93,7 @@ export default new Vuex.Store({
     },
     setSearch (state, search) {
       state.search = search
-    }
+    },
   },
   actions: {
     async getData(context, getters) {
@@ -97,15 +128,17 @@ export default new Vuex.Store({
       var entries = context.getters.getEntries
       var entriesByCategory = entries.filter(value => value.Category == category)
       context.commit("setEntriesByCategory", entriesByCategory)
-      //context.commit("setDisplay", entriesByCategory)
+      context.commit("setDisplay", entriesByCategory)
     },
     search(context, search) {
+      context.commit("setCategories", [])
+      context.commit("clearDisplay")
       var entriesBySearch = context.getters.getEntries.filter(function(entry){
         if (entry.Description.toLowerCase().includes(search.toLowerCase())){
           return entry
         }
       })
-      context.commit("setEntriesBySearch", entriesBySearch)
+      context.commit("setDisplay", entriesBySearch)
     },
     clearEntries(context) {
       context.commit("setEntriesBySearch", [])
