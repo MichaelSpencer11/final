@@ -39,6 +39,7 @@
 
     <v-main>
     <v-sheet class="pa-4 primary lighten-2">
+      <span>
       <v-text-field
         label="Search Public APIs"
         dark
@@ -47,7 +48,7 @@
         hide-details
         clearable
         clear-icon="mdi-close-circle-outline"
-        hint="Search Public APIs" 
+        hint="Press Enter to search" 
         :value="search"
         @input="updateSearch"
         @keyup.enter="doSearch"
@@ -56,28 +57,61 @@
       <v-btn @click="doSearch">
         <v-icon  class="flex align-center">mdi-magnify</v-icon>
       </v-btn>
-      <v-btn @click="showCategoryList">
-        Categories
-        <v-icon class="flex align-center">mdi-solar-panel-large</v-icon>
-      </v-btn>
-      
+      </span>
+      <div class="text-center">
+    <v-dialog
+      :dialog="dialog"
+      fullscreen
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          @click="showCategoryList"
+        >
+          Categories
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          Categories
+        </v-card-title>
+
+        <v-card-text>
+          Please choose a category.
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-card>
+          <v-btn v-for="(category, index) in categories" 
+                  :key="index"
+                  text
+                  @click="selectCategory(category)"
+                  >{{category}}
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            @click="setDialog(false)"
+          >
+            Accept
+          </v-btn>
+          </v-card>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
       <v-divider></v-divider>
     </v-sheet>
-    <v-card-text>
-      <v-card>
-        <v-btn v-for="category in categories" 
-              :key="category"
-              @click="selectCategory(category)">
-          {{category}}
-        </v-btn>
-      </v-card>
       <v-data-table  :headers="headers"
                      :items="display"
                      :items-per-page="5"
                      class="elevation-1"
                      :item-key="entriesByCategory.API">
       </v-data-table>
-    </v-card-text>
     </v-main>
   </v-app>
 </template>
@@ -115,6 +149,9 @@ export default {
     },
     headers() {
       return this.$store.getters.getHeaders
+    },
+    dialog() {
+      return this.$store.getters.getDialog
     }
   },
   methods: {
@@ -126,19 +163,22 @@ export default {
       this.$store.dispatch("getCategoryList")
     },
     selectCategory(category) {
+      dialog = false
       this.$store.dispatch("displayEntries", category)
     },
     doSearch() {
       this.$store.dispatch("search", this.$store.getters.getSearch)
+    },
+    setDialog(bool) {
+      this.$store.dispatch("setDialog", bool)
     }
   },
   mounted() {
     this.$store.dispatch("getData")
-    this.showCategoryList
+    this.$store.dispatch("getCategoryList")
   },
   data: () => ({
     return: {
-      
     }
   }),
 };

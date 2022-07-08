@@ -13,6 +13,7 @@ export default new Vuex.Store({
     entriesBySearch: [],
     display: [],
     categories: [],
+    dialog: false,
     headers: [{
       text: "API",
       value: "API"
@@ -66,6 +67,9 @@ export default new Vuex.Store({
     },
     getHeaders: state => {
       return state.headers
+    },
+    getDialog: state => {
+      return state.dialog
     }
   },
   mutations: {
@@ -80,7 +84,6 @@ export default new Vuex.Store({
     },
     clearDisplay (state) {
       state.display = []
-      state.entriesByCategory = []
     },
     setCategories (state, array) {
       state.categories = array
@@ -94,6 +97,9 @@ export default new Vuex.Store({
     setSearch (state, search) {
       state.search = search
     },
+    setDialog(state, bool) {
+      state.dialog = bool
+    }
   },
   actions: {
     async getData(context, getters) {
@@ -106,6 +112,7 @@ export default new Vuex.Store({
       console.log('Done.')
     },
     getCategoryList(context) {
+      context.commit("setDialog", true)
       var entries = context.rootGetters.getEntries
       var categories = []
       entries.forEach(entry => categories.push(entry.Category))
@@ -145,6 +152,9 @@ export default new Vuex.Store({
     },
     updateSearch (context, search){
       context.commit("setSearch", search)
+    },
+    setDialog(context, bool) {
+      context.commit("setDialog", bool )
     }
   },
   modules: {
