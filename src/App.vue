@@ -60,7 +60,7 @@
       </span>
       <div class="text-center">
     <v-dialog
-      :dialog="dialog"
+      v-model="dialog"
       fullscreen
     >
       <template v-slot:activator="{ on, attrs }">
@@ -86,12 +86,21 @@
 
         <v-card-actions>
           <v-card>
+            <v-btn-toggle
+              v-model="toggle_exclusive"
+              tile
+              color="deep-purple accent-3"
+              group
+            >
+            <v-card>
           <v-btn v-for="(category, index) in categories" 
                   :key="index"
                   text
                   @click="selectCategory(category)"
                   >{{category}}
           </v-btn>
+          </v-card>
+          </v-btn-toggle>
           <v-spacer></v-spacer>
           <v-btn
             color="primary"
@@ -163,7 +172,6 @@ export default {
       this.$store.dispatch("getCategoryList")
     },
     selectCategory(category) {
-      dialog = false
       this.$store.dispatch("displayEntries", category)
     },
     doSearch() {
@@ -176,6 +184,7 @@ export default {
   mounted() {
     this.$store.dispatch("getData")
     this.$store.dispatch("getCategoryList")
+    this.$store.dispatch("setDialog", false)
   },
   data: () => ({
     return: {

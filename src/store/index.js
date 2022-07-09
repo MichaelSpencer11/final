@@ -84,6 +84,8 @@ export default new Vuex.Store({
     },
     clearDisplay (state) {
       state.display = []
+      state.entriesBySearch = []
+      state.entriesByCategory = []
     },
     setCategories (state, array) {
       state.categories = array
