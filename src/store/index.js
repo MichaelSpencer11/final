@@ -143,7 +143,8 @@ export default new Vuex.Store({
       context.commit("setCategories", [])
       context.commit("clearDisplay")
       var entriesBySearch = context.getters.getEntries.filter(function(entry){
-        if (entry.Description.toLowerCase().includes(search.toLowerCase())){
+        if (entry.Description.toLowerCase().includes(search.toLowerCase()) || 
+            entry.Category.toLowerCase().includes(search.toLowerCase())){
           return entry
         }
       })

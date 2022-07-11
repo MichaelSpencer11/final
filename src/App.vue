@@ -89,7 +89,6 @@
             <v-btn-toggle
               v-model="toggle_exclusive"
               tile
-              color="deep-purple accent-3"
               group
             >
             <v-card>
