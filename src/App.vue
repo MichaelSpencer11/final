@@ -87,7 +87,6 @@
         <v-card-actions>
           <v-card>
             <v-btn-toggle
-              v-model="toggle_exclusive"
               tile
               group
             >
