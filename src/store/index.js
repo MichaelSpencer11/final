@@ -106,7 +106,7 @@ export default new Vuex.Store({
   actions: {
     async getData(context, getters) {
       console.log('Initializing...')
-      const data = await axios.get(`http://localhost:5001/getData`)
+      const data = await axios.get(`http://localhost:8080/getdata`)
       context.commit("setData", data)
       context.commit("setEntries", data)
       var entries = data.data.entries
